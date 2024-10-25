@@ -1,0 +1,20 @@
+ {
+    "modal_name": "LinearRegression",
+    "additional_model_parameters":{},
+    "train_data": "train_data.csv",
+    "predictable_columns": [""],
+    "categorical_lables" : [""],
+    "ignore_columns": [""],
+    "test_data":  "test_data.csv",
+    "result_data_name": "result_data.csv",
+    "dynamic_result_data": [{
+        "train_result_data_name": "previous_results1.csv",
+        "mapping_features": [],
+        "result_data": []
+    },
+    {
+        "train_result_data_name": "previous_results2.csv",
+        "mapping_features": [],
+        "result_data": []
+    }]
+}
