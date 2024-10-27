@@ -1,0 +1,23 @@
+ {
+    "instance_name": "CropMarketPredection",
+    "level": 3,
+    "modal_name": "LinearRegression",
+    "additional_model_parameters":{},
+    "train_data": "train_data.csv",
+    "predictable_columns": [""],
+    "categorical_labels" : [""],
+    "ignore_columns": [""],
+    "test_data":  "test_data.csv",
+    "dynamic_result_data": [{
+        "result_data_name": "result_data1.csv",
+        "result_columns": [],
+        "mapping_features": [],
+        "result_data": []
+    },
+    {
+        "result_data_name": "result_data2.csv",
+        "result_columns": [],
+        "mapping_features": [],
+        "result_data": []
+    }]
+}
