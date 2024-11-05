@@ -1,24 +1,19 @@
  {
-    "instance_name": "RainFallPredection",
+    "instance_name": "HousePricePrediction",
     "level": 1,
     "modal_name": "LinearRegression",
     "additional_model_parameters":{},
-    "train_data": "train_data.csv",
-    "result_column": "",
-    "predictable_columns": [""],
-    "categorical_labels" : [""],
-    "ignore_columns": [""],
-    "test_data":  "test_data.csv",
+    "train_data": "/home/chandra/mldata/house_pricing/train.csv",
+    "result_column": "SalePrice",
+     "categorical_labels": ["LotArea"],
+    "predictable_columns": ["SalePrice"],
+    "ignore_columns": ["Id"],
+    "test_data":  "/home/chandra/mldata/house_pricing/test.csv",
     "dynamic_result_data": [{
-        "result_data_name": "result_data1.csv",
-        "result_columns": [],
+        "result_data_name": "/home/chandra/mldata/house_pricing/result_data1.csv",
+        "result_columns": ["PredictedPrice"],
         "mapping_features": [],
-        "result_data": []
-    },
-    {
-        "result_data_name": "result_data2.csv",
-        "result_columns": [],
-        "mapping_features": [],
-        "result_data": []
-    }]
+        "result_data": ["PredictedPrice"]
+    }
+    ]
 }

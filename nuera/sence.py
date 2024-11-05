@@ -22,7 +22,7 @@ for (dir_path, dir_names, file_names) in walk(process_path):
         if data['level'] > max_level:
             max_level = data['level']
 print(signals)
-for level in range(max_level):
+for level in range(1, max_level+1):
     key = 'level_'+str(level)
     print(key)
     nuerons = signals.get(key, [])
@@ -36,14 +36,15 @@ for level in range(max_level):
         model_name = nueron.get('modal_name')
         result_column = nueron.get('result_column')
         additional_param = nueron.get('additional_model_parameters')
-        model  = get_data_model(model_name, train_data, result_column, additional_param)
+        model  = get_data_model(model_name, train_data['result'], result_column, additional_param)
         test_data = read_csv(nueron.get('test_data'))
-        result = model.predict(test_data)
+        test_data = process("liner regression", test_data, categorical_labels, ignore_columns)
+        result = model.predict(test_data['result'])
         dynamic_result_data = nueron.get('dynamic_result_data')
         for dynamic_data in dynamic_result_data:
-            file_name = nueron.get('result_data_name')
-            result_columns = nueron.get('result_columns')
-            mapping_features = nueron.get('mapping_features')
-            result_data = nueron.get('result_data')
+            file_name = dynamic_data.get('result_data_name')
+            result_columns = dynamic_data.get('result_columns')
+            mapping_features = dynamic_data.get('mapping_features')
+            result_data = dynamic_data.get('result_data')
             target_data_frame= get_response_obj(file_name, train_data_pre, mapping_features, result_columns, result, result_data[0])
             target_data_frame.to_csv(file_name, index=False)

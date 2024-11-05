@@ -9,52 +9,24 @@ import numpy as np
 sys.path.append('../')
 from dendrites.preprocess_data import process
 from dendrites.preprocess_data import map_labels
+from dendrites.preprocess_data import drop_labels
+from dendrites.preprocess_data import  replace_empty
 from sklearn import  linear_model
+from sklearn.impute import KNNImputer
 
-class LinerRegression(nn.Module):
-    def __init__(self, inputs, outputs):
-        super(LinerRegression, self).__init__()
-        self.liner =  nn.Linear(in_features=inputs.shape[1], out_features=1)
-        self.inputs = inputs
-        self.outputs = outputs
 
-    def forward(self, x):
-        return self.liner(x)
-
-    def train(self, optimizer='SGD', learning_rate= 0.01, epoches=10):
-        optimizerAlgo = torch.optim.SGD(model.parameters(), learning_rate)
-        criterion = nn.MSELoss()
-        if(optimizer == 'LBFGS'):
-            optimizerAlgo = torch.optim.LBFGS(model.parameters())
-        for epoche in range(epoches):
-            inputs = torch.from_numpy(self.inputs.values).float()
-            targets = torch.from_numpy(self.outputs.values).float()
-            optimizerAlgo.zero_grad()
-            outputs =  self.forward(inputs)
-            loss = criterion(outputs.squeeze(), targets)
-            loss.backward()
-            optimizerAlgo.step()
-
-    def predict(self, x):
-        predictable_inputs = Variable(torch.from_numpy(x.values.astype(np.float32)))
-        result =  self.forward(predictable_inputs)
-        print("result==>")
-        print(result)
-        return result
-
-input_data_frame = pd.read_csv("C:\\Users\\parameswari\\Downloads\\Seasonwiseprocurementdetails2023_0.csv")
-data_after_process = process("liner regression", input_data_frame, ['District', 'Commodity', 'Season'], ['No of Farmers', 'Amount(Rs)'])
+input_data_frame = pd.read_csv("/home/chandra/mldata/house_pricing/train.csv")
+quantity = pd.DataFrame(input_data_frame['SalePrice'])
+input_data_frame = input_data_frame.drop(['SalePrice'], axis=1)
+data_after_process = process("liner regression", input_data_frame,  ['Id'])
 processed_data_frame = data_after_process['result']
-quantity = processed_data_frame['Qty(MTs)']
-processed_data_frame = processed_data_frame.drop(['Qty(MTs)'], axis=1)
-print(processed_data_frame.head())
-model = LinerRegression(processed_data_frame, quantity)
-print(model.liner.weight.shape)
-model.train(epoches=1)
-predict_data_frame =  pd.DataFrame({'District': ['CHITTOOR'],
-'Commodity': ['Bajra'],  'Season':['Kharif-2021']})
-predict_data_frame = map_labels(predict_data_frame, ['District', 'Commodity', 'Season'], data_after_process['map'])
-print(model.predict(predict_data_frame).detach().numpy())
+print(processed_data_frame)
+data_after_process1 = process("liner regression", quantity,  [])
+quantity=data_after_process1['result']
+
+predict_data_frame = pd.read_csv("/home/chandra/mldata/house_pricing/test.csv")
+predict_data_frame = process("liner regression",predict_data_frame, ['Id'])
+
 regression = linear_model.LinearRegression()
-regression.fit(processed_data_frame, quantity)
-print(regression.predict(predict_data_frame))
+regression.fit(processed_data_frame, quantity['SalePrice'])
+print(regression.predict(predict_data_frame['result']))
